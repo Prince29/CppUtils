@@ -24,6 +24,9 @@ private:
 public:
 	void show();
 	Student copy();
+	bool cmpDesc(const Student &a,const Student &b);
+	bool cmpAsc(const Student &a,const Student &b);
+
 	Student();
 	virtual ~Student();
 

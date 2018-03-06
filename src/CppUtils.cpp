@@ -11,6 +11,7 @@
 //using namespace std;
 
 #include "../tests/student/Student.h"
+#include <algorithm>
 
 int main() {
 	Student student;

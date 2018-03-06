@@ -46,3 +46,10 @@ Student Student::copy(){
 	student.setSchool(schoolInfo);
 	return student;
 }
+
+bool Student::cmpDesc(const Student &a,const Student &b){
+	return a.getScore()>b.getScore();
+}
+bool Student::cmpAsc(const Student &a,const Student &b){
+	return a.getScore()<b.getScore();
+}
