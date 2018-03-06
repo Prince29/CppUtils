@@ -9,9 +9,9 @@
 #define CLIST_H_
 
 class CList {
-public:
-	CList();
-	virtual ~CList();
+	public:
+		CList();
+		virtual ~CList();
 };
 
 #endif /* CLIST_H_ */
