@@ -12,6 +12,8 @@
 
 #include "../tests/student/Student.h"
 #include <algorithm>
+#include <list>
+using namespace std;
 
 int main() {
 	Student student;
@@ -29,6 +31,12 @@ int main() {
 	student1=student.copy();
 	student1.setName("李四");
 
+	std::list<Student> studentList;
+	studentList.push_back(student);
+	studentList.push_back(student1);
+	//studentList.sort(student.cmpAsc());
+
 	student.show();
 	student1.show();
+	std::cout<<"list size:"<<studentList.size()<<std::endl;
 }
