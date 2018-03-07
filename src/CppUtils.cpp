@@ -8,11 +8,11 @@
 
 //#include <iostream>
 //#include <string>
-//using namespace std;
+using namespace std;
 
 #include "../tests/student/Student.h"
-#include "../SortUtils/SortUtils.h"
-#include "../ArrayUtils/ArrayUtils.h"
+#include "../utils/SortUtils.h"
+#include "../utils/ArrayUtils.h"
 
 #include <cstring>
 #include <algorithm>
@@ -41,14 +41,18 @@ int main() {
 
 	student.show();
 	student1.show();
-	std::cout<<"list size:"<<studentList.size()<<std::endl;
+	cout<<"list size:"<<studentList.size()<<endl;
 
 	int a[]={6,2,7,3,8,9};
+	char b[]={'a','z','k','b','g'};
 	arrayShow(a);
-	std::cout<<std::endl;
+	cout<<endl;
 	//arrayShow(a,"->");
 
-	QuickSort(a,0,arrayLength(a)-1);
+	QuickSort(a);
+	QuickSort(b);
 	arrayShow(a);
+	cout<<endl;
+	arrayShow(b);
 
 }
