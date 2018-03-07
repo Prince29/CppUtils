@@ -31,4 +31,10 @@ void ArrayShow(const T &array){
 	}
 }
 
+template<typename T,typename R>
+void ArrayCopy(T &res,R &src,int size){
+	for(int i=0;i<size;i++){
+		res[i]=src[i];
+	}
+}
 #endif /* ARRAYUTILS_H_ */

@@ -10,6 +10,13 @@
 
 #include "ArrayUtils.h"
 
+template<typename T>
+void Swap(T &a,T &b){
+	T tmp=a;
+	a=b;
+	b=tmp;
+}
+
 /*快排*/
 template<typename T>
 void QuickSort(T &array,int low,int high){
@@ -76,6 +83,75 @@ void MergeSort(T &array,int start,int end,R &result){
 template<typename T,typename R>
 void MergeSort(T &array,R &result){
 	MergeSort(array,0,ArrayLength(array)-1,result);
+}
+
+/*堆排序*/
+template<typename T>
+void MinHeap(T &array,int size,int element){
+	int lchild=element*2+1;
+	int rchild=lchild+1;
+	while(rchild<size){
+		if(array[element]>=array[lchild]&&array[element]>=array[rchild])return;
+
+		if(array[lchild]>=array[rchild]){
+			Swap(array[element],array[lchild]);
+			element=lchild;
+		}else{
+			Swap(array[element],array[rchild]);
+			element=rchild;
+		}
+		lchild=element*2+1;
+		rchild=lchild+1;
+	}
+	if(lchild<size&&array[lchild]>array[element]){
+		Swap(array[lchild],array[element]);
+	}
+	return;
+}
+
+/*堆排序*/
+template<typename T>
+void HeapSort(T &array,int size){
+	for(int i=size-1;i>=0;i--){
+		MinHeap(array,size,i);
+	}
+	while(size>0){
+		Swap(array[size-1],array[0]);
+		size--;
+		MinHeap(array,size,0);
+	}
+	return;
+}
+
+/*堆排序*/
+template<typename T>
+void HeapSort(T &array){
+	int size=ArrayLength(array);
+	for(int i=size-1;i>=0;i--){
+		MinHeap(array,size,i);
+	}
+	while(size>0){
+		Swap(array[size-1],array[0]);
+		size--;
+		MinHeap(array,size,0);
+	}
+	return;
+}
+
+/*选择排序*/
+template<typename T>
+void SelectionSort(T &array){
+	int size=ArrayLength(array);
+	for(int i=0;i<size-1;i++){
+		int minIndex=i;
+		for(int j=i+1;j<size;j++){
+			if(array[j]<array[minIndex]){
+				minIndex=j;
+			}
+		}
+		if(i!=minIndex)
+			Swap(array[i],array[minIndex]);
+	}
 }
 
 #endif /* SORTUTILS_H_ */
