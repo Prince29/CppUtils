@@ -11,6 +11,7 @@ RM := rm -rf
 -include utils/subdir.mk
 -include tests/student/subdir.mk
 -include src/subdir.mk
+-include SortUtils/subdir.mk
 -include subdir.mk
 -include objects.mk
 

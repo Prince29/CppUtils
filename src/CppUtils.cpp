@@ -11,9 +11,12 @@
 //using namespace std;
 
 #include "../tests/student/Student.h"
+#include "../SortUtils/SortUtils.h"
+#include "../ArrayUtils/ArrayUtils.h"
+
+#include <cstring>
 #include <algorithm>
 #include <list>
-using namespace std;
 
 int main() {
 	Student student;
@@ -39,4 +42,13 @@ int main() {
 	student.show();
 	student1.show();
 	std::cout<<"list size:"<<studentList.size()<<std::endl;
+
+	int a[]={6,2,7,3,8,9};
+	arrayShow(a);
+	std::cout<<std::endl;
+	//arrayShow(a,"->");
+
+	QuickSort(a,0,arrayLength(a)-1);
+	arrayShow(a);
+
 }
