@@ -9,12 +9,12 @@
 #define ARRAYUTILS_H_
 
 template<typename T>
-int arrayLength(const T &array){
+int ArrayLength(const T &array){
 	return sizeof(array)/sizeof(array[0]);
 }
 
 template<typename T,typename C>
-void arrayShow(const T &array,C c){
+void ArrayShow(const T &array,C c){
 	int len=arrayLength(array);
 	for(int i=0;i<len;i++){
 		std::cout<<array[i];
@@ -25,8 +25,8 @@ void arrayShow(const T &array,C c){
 }
 
 template<typename T>
-void arrayShow(const T &array){
-	for(int i=0;i<arrayLength(array);i++){
+void ArrayShow(const T &array){
+	for(int i=0;i<ArrayLength(array);i++){
 		std::cout<<array[i]<<" ";
 	}
 }

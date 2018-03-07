@@ -45,14 +45,21 @@ int main() {
 
 	int a[]={6,2,7,3,8,9};
 	char b[]={'a','z','k','b','g'};
-	arrayShow(a);
+	int c[6]={0};
+	char d[5]={0};
+	ArrayShow(a);
 	cout<<endl;
 	//arrayShow(a,"->");
 
-	QuickSort(a);
-	QuickSort(b);
-	arrayShow(a);
+//	QuickSort(a);
+//	QuickSort(b);
+	MergeSort(a,c);
+	MergeSort(b,d);
+	cout<<"len:"<<ArrayLength(c)<<":"<<ArrayLength(d)<<endl;
+	ArrayShow(c);
+	cout<<":";
+	ArrayShow(d);
 	cout<<endl;
-	arrayShow(b);
+	ArrayShow(b);
 
 }
