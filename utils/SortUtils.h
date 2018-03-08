@@ -154,4 +154,23 @@ void SelectionSort(T &array){
 	}
 }
 
+/*希尔排序*/
+template<typename T>
+void ShellSort(T &array){
+	int length=ArrayLength(array);
+	int div=length/2;
+	while(div>0){
+		for(int i=0;i<div;i++){
+			for(int j=i;j<length-div;j+=div){
+				for(int k=j+div;k<length;k+=div){
+					if(array[j]>array[k]){
+						Swap(array[j],array[k]);
+					}
+				}
+			}
+		}
+		div/=2;
+	}
+}
+
 #endif /* SORTUTILS_H_ */

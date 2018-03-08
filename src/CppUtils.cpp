@@ -71,6 +71,16 @@ int main() {
 	ArrayShow(tmpc);
 	cout<<endl;
 
+	memcpy(tmp,sort,sizeof(sort));
+	memcpy(tmpc,sortc,sizeof(sortc));
+	ShellSort(tmp);
+	ShellSort(tmpc);
+	cout<<"ShellSort :";
+	ArrayShow(tmp);
+	cout<<endl;
+	cout<<"ShellSortc:";
+	ArrayShow(tmpc);
+	cout<<endl;
 }
 //	Student student;
 //	Student student1;
