@@ -1,31 +1,115 @@
-//============================================================================
-// Name        : CppUtils.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
-
-//#include <iostream>
-//#include <string>
+#include <Winsock2.h>
+#include "iphlpapi.h"
+#include <iostream>
 using namespace std;
 
-#include "../tests/student/Student.h"
-#include "../tests/chooser/Person.h"
-#include "../utils/SortUtils.h"
-#include "../utils/ArrayUtils.h"
-#include "../classes/Map.h"
-#include "../classes/Chooser.h"
+#pragma comment(lib,"Iphlpapi.lib")
+#pragma comment(lib,"Ws2_32.lib")
 
-#include <cstring>
-#include <algorithm>
-#include <list>
+typedef HANDLE (WINAPI* ICMPCREATEFILE)(VOID);
+typedef BOOL (WINAPI* ICMPCLOSEHANDLE)(HANDLE);
+typedef DWORD (WINAPI* ICMPSENDECHO)(HANDLE, DWORD, LPVOID, WORD,PIP_OPTION_INFORMATION, LPVOID, DWORD, DWORD);
 
-using namespace classes;
+//定义三个指针函数
+ICMPCREATEFILE pIcmpCreateFile;
+ICMPCLOSEHANDLE pIcmpCloseHandle;
+ICMPSENDECHO pIcmpSendEcho;
 
-int main() {
-
+// 函数功能：初始化ICMP函数：
+BOOL InitIcmp()
+{
+    HINSTANCE hIcmp = LoadLibrary("ICMP.DLL");
+    if(hIcmp==NULL)
+    {
+        return false;
+    }
+    pIcmpCreateFile = (ICMPCREATEFILE)GetProcAddress(hIcmp,"IcmpCreateFile");
+    pIcmpCloseHandle = (ICMPCLOSEHANDLE)GetProcAddress(hIcmp,"IcmpCloseHandle");
+    pIcmpSendEcho = (ICMPSENDECHO)GetProcAddress(hIcmp,"IcmpSendEcho");
+    if ((pIcmpCreateFile == NULL)||(pIcmpCloseHandle == NULL)||(pIcmpSendEcho == NULL))
+        return false;
+    return true;
 }
+
+
+// 函数功能：判断是否能ping通IP
+// 函数参数：IP地址或域名
+BOOL ICMPPing(char* host)
+{
+    DWORD timeOut=1000;                                              //设置超时
+    ULONG hAddr=inet_addr(host);                                     //如果是IP地址就直接转换
+    if(hAddr==INADDR_NONE)
+    {
+        hostent* hp=gethostbyname(host);                             //如果是域名就用DNS解析出IP地址
+        if(hp)
+            memcpy(&hAddr,hp->h_addr_list,hp->h_length);             //IP地址
+        else
+        {
+            return false;
+        }
+    }
+    HANDLE hIp=pIcmpCreateFile();
+    IP_OPTION_INFORMATION ipoi;
+    memset(&ipoi,0,sizeof(IP_OPTION_INFORMATION));
+    ipoi.Ttl =128;                  //Time-To-Live
+
+    unsigned char pSend[36];                                                                   //发送包
+    memset(pSend,'E',32);
+
+    int repSize=sizeof(ICMP_ECHO_REPLY)+32;
+    unsigned char pReply[100];                                                                 //接收包
+    ICMP_ECHO_REPLY* pEchoReply=(ICMP_ECHO_REPLY*)pReply;
+
+    DWORD nPackets=pIcmpSendEcho(hIp,hAddr,pSend,32,&ipoi,pReply,repSize,timeOut);             //发送ICMP数据报文
+
+    if(pEchoReply->Status!=0)                                                                  //超时，可能是主机禁用了ICMP 或者目标主机不存在
+    {
+        pIcmpCloseHandle(hIp);
+        return false;
+    }
+
+    pIcmpCloseHandle(hIp);
+    return true;
+}
+
+int main()
+{
+    InitIcmp();
+    cout<<ICMPPing("172.16.5.101");
+    cout<<ICMPPing("172.16.5.106");
+    return 0;
+}
+////============================================================================
+//// Name        : CppUtils.cpp
+//// Author      :
+//// Version     :
+//// Copyright   : Your copyright notice
+//// Description : Hello World in C++, Ansi-style
+////============================================================================
+//
+////#include <iostream>
+////#include <string>
+//
+////
+////#include "../tests/student/Student.h"
+////#include "../tests/chooser/Person.h"
+////#include "../utils/SortUtils.h"
+////#include "../utils/ArrayUtils.h"
+////#include "../classes/Map.h"
+////#include "../classes/Chooser.h"
+//
+//#include <cstring>
+//#include <algorithm>
+//#include <list>
+//#include <map>
+//#include <vector>
+//#include <iostream>
+//
+//using namespace std;
+//
+//int main() {
+//	std::cout<<system("ping -c 1 -w 1 172.16.5.100");
+//}
 ////////////////////////////////////////////////////////////////
 //	Student student;
 //	Student student1;
